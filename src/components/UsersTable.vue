@@ -75,7 +75,7 @@
 
                     <md-button
                       class="md-primary"
-                      v-on:click="editUser(item.userId)"
+                      v-on:click="editUser(item)"
                     >edit user
                     </md-button
                     >
@@ -144,15 +144,19 @@
                                 name: user.name,
                                 macAddress: user.station_mac,
                                 userId: user._id,
-                                pic: `${host}/uploads/${user.pic}`
+                                pic: `${host}/uploads/${user.pic}`,
+                                description: user.text,
                             };
                         });
                     }
                 });
             },
-            editUser(userId) {
-                this.selectedUser = userId;
-                this.showDialog = true;
+            editUser(user) {
+              this.form.firstName = user.name;
+              this.form.macAddress = user.macAddress;
+              this.form.description = user.description;
+              this.selectedUser = user.id;
+              this.showDialog = true;
             },
 
             setImage(event) {
