@@ -29,7 +29,7 @@
               <md-field>
                 <label for="image">Image</label>
                 <md-input name="file" id="image" type="file" autocomplete="given-name"
-                          v-on:change="setImage($event)" v-model="file"
+                          v-on:change="setImage($event)"
                 />
               </md-field>
             </md-card-content>
@@ -170,16 +170,17 @@
             },
 
             setImage(event) {
+                event.preventDefault();
 
                 const image = new FormData();
                 image.append('pic', event.target.files[0]);
                 this.file = image;
 
-                event.preventDefault();
                 axios
                     .patch(`${host}/users/${this.selectedUser}/upload`, this.file)
                     .then(response => {
                         console.log('patch', response);
+                        this.getUsers();
                     })
             },
 
@@ -198,6 +199,7 @@
                     .then(response => {
                         this.currentUser = response.data._id;
                         console.log('post', response);
+                        this.getUsers();
                     });
                 this.showDialog = false;
             }

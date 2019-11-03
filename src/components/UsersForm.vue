@@ -30,9 +30,6 @@
           </md-field>
         </md-card-content>
 
-
-        <pre> {{ $v.$model }}</pre>
-
         <md-card-actions>
           <md-button type="submit" class="md-primary" v-on:click="createUser($event)">Create user</md-button>
         </md-card-actions>
@@ -165,7 +162,7 @@
     width: 100%;
   }
 
-  input[type="file"] {
+  /* input[type="file"] {
     opacity: 0;
-  }
+  } */
 </style>
