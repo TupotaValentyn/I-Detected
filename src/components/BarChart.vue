@@ -7,172 +7,172 @@
 </template>
 
 <script>
-import ECharts from "vue-echarts";
-import { socket } from "../services/sockets";
+    import ECharts from "vue-echarts";
+    import { socket } from "../services/sockets";
 
-export default {
-  data() {
-    var dataAxis = [];
-    var data = [];
-    var yMax = 100;
-    var dataShadow = [];
+    export default {
+        data() {
+            let dataAxis = [];
+            const data = [];
+            let yMax = 100;
+            let dataShadow = [];
 
-    for (var i = 0; i < data.length; i++) {
-      dataShadow.push(yMax);
-    }
-
-    const option = {
-      title: {
-        text: "People in range"
-      },
-      xAxis: {
-        data: dataAxis,
-        axisLabel: {
-          inside: true,
-          textStyle: {
-            color: "#fff"
-          }
-        },
-        axisTick: {
-          show: false
-        },
-        axisLine: {
-          show: false
-        },
-        z: 10
-      },
-      yAxis: {
-        axisLine: {
-          show: false
-        },
-        axisTick: {
-          show: false
-        },
-        axisLabel: {
-          textStyle: {
-            color: "#999"
-          }
-        }
-      },
-      dataZoom: [
-        {
-          type: "inside"
-        }
-      ],
-      series: [
-        // {
-        //   // For shadow
-        //   type: "bar",
-        //   itemStyle: {
-        //     normal: { color: "rgba(0,0,0,0.05)" }
-        //   },
-        //   barGap: "-100%",
-        //   barCategoryGap: "40%",
-        //   data: dataShadow,
-        //   animation: false
-        // },
-        // {
-        //   type: "bar",
-        //   itemStyle: {
-        //     normal: {
-        //       color: new ECharts.graphic.LinearGradient(0, 0, 0, 1, [
-        //         { offset: 0, color: "#83bff6" },
-        //         { offset: 0.5, color: "#188df0" },
-        //         { offset: 1, color: "#188df0" }
-        //       ])
-        //     },
-        //     emphasis: {
-        //       color: new ECharts.graphic.LinearGradient(0, 0, 0, 1, [
-        //         { offset: 0, color: "#2378f7" },
-        //         { offset: 0.7, color: "#2378f7" },
-        //         { offset: 1, color: "#83bff6" }
-        //       ])
-        //     }
-        //   },
-        //   data: data
-        // }
-      ]
-    };
-    return {
-      opts: option
-    };
-  },
-  mounted() {
-    socket.on("data-list", response => {
-      if (!response) return;
-      const responseData = response.map(item => ({
-        name: `${item.name} (${item.station_mac})`,
-        signal: 100 + item.power
-      }));
-      // console.log(responseData);
-
-      var yMax = 100;
-      var dataAxis = responseData.map(item => item.name);
-      var data = responseData.map(item => item.signal);
-      var dataShadow = [];
-
-      for (var i = 0; i < data.length; i++) dataShadow.push(yMax);
-
-      this.opts = {
-        ...this.opts,
-        xAxis: {
-          data: dataAxis,
-          axisLabel: {
-            inside: true,
-            textStyle: {
-              color: "#fff"
+            for (var i = 0; i < data.length; i++) {
+                dataShadow.push(yMax);
             }
-          },
-          axisTick: {
-            show: false
-          },
-          axisLine: {
-            show: false
-          },
-          z: 10
+
+            const option = {
+                title: {
+                    text: "People in range"
+                },
+                xAxis: {
+                    data: dataAxis,
+                    axisLabel: {
+                        inside: true,
+                        textStyle: {
+                            color: "#fff"
+                        }
+                    },
+                    axisTick: {
+                        show: false
+                    },
+                    axisLine: {
+                        show: false
+                    },
+                    z: 10
+                },
+                yAxis: {
+                    axisLine: {
+                        show: false
+                    },
+                    axisTick: {
+                        show: false
+                    },
+                    axisLabel: {
+                        textStyle: {
+                            color: "#999"
+                        }
+                    }
+                },
+                dataZoom: [
+                    {
+                        type: "inside"
+                    }
+                ],
+                series: [
+                    // {
+                    //   // For shadow
+                    //   type: "bar",
+                    //   itemStyle: {
+                    //     normal: { color: "rgba(0,0,0,0.05)" }
+                    //   },
+                    //   barGap: "-100%",
+                    //   barCategoryGap: "40%",
+                    //   data: dataShadow,
+                    //   animation: false
+                    // },
+                    // {
+                    //   type: "bar",
+                    //   itemStyle: {
+                    //     normal: {
+                    //       color: new ECharts.graphic.LinearGradient(0, 0, 0, 1, [
+                    //         { offset: 0, color: "#83bff6" },
+                    //         { offset: 0.5, color: "#188df0" },
+                    //         { offset: 1, color: "#188df0" }
+                    //       ])
+                    //     },
+                    //     emphasis: {
+                    //       color: new ECharts.graphic.LinearGradient(0, 0, 0, 1, [
+                    //         { offset: 0, color: "#2378f7" },
+                    //         { offset: 0.7, color: "#2378f7" },
+                    //         { offset: 1, color: "#83bff6" }
+                    //       ])
+                    //     }
+                    //   },
+                    //   data: data
+                    // }
+                ]
+            };
+            return {
+                opts: option
+            };
         },
-        series: [
-          {
-            // For shadow
-            type: "bar",
-            itemStyle: {
-              normal: { color: "rgba(0,0,0,0.05)" }
-            },
-            barGap: "-100%",
-            barCategoryGap: "40%",
-            data: dataShadow,
-            animation: false
-          },
-          {
-            type: "bar",
-            itemStyle: {
-              normal: {
-                color: new ECharts.graphic.LinearGradient(0, 0, 0, 1, [
-                  { offset: 0, color: "#83bff6" },
-                  { offset: 0.5, color: "#188df0" },
-                  { offset: 1, color: "#188df0" }
-                ])
-              },
-              emphasis: {
-                color: new ECharts.graphic.LinearGradient(0, 0, 0, 1, [
-                  { offset: 0, color: "#2378f7" },
-                  { offset: 0.7, color: "#2378f7" },
-                  { offset: 1, color: "#83bff6" }
-                ])
-              }
-            },
-            data: data
-          }
-        ]
-      };
-    });
-  }
-};
+        mounted() {
+            socket.on("data-list", response => {
+                if (!response) return;
+                const responseData = response.map(item => ({
+                    name: `${item.name} (${item.station_mac})`,
+                    signal: 100 + item.power
+                }));
+                // console.log(responseData);
+
+                let yMax = 100;
+                let dataAxis = responseData.map(item => item.name);
+                let data = responseData.map(item => item.signal);
+                let dataShadow = [];
+
+                for (var i = 0; i < data.length; i++) dataShadow.push(yMax);
+
+                this.opts = {
+                    ...this.opts,
+                    xAxis: {
+                        data: dataAxis,
+                        axisLabel: {
+                            inside: true,
+                            textStyle: {
+                                color: "#fff"
+                            }
+                        },
+                        axisTick: {
+                            show: false
+                        },
+                        axisLine: {
+                            show: false
+                        },
+                        z: 10
+                    },
+                    series: [
+                        {
+                            // For shadow
+                            type: "bar",
+                            itemStyle: {
+                                normal: {color: "rgba(0,0,0,0.05)"}
+                            },
+                            barGap: "-100%",
+                            barCategoryGap: "40%",
+                            data: dataShadow,
+                            animation: false
+                        },
+                        {
+                            type: "bar",
+                            itemStyle: {
+                                normal: {
+                                    color: new ECharts.graphic.LinearGradient(0, 0, 0, 1, [
+                                        {offset: 0, color: "#83bff6"},
+                                        {offset: 0.5, color: "#188df0"},
+                                        {offset: 1, color: "#188df0"}
+                                    ])
+                                },
+                                emphasis: {
+                                    color: new ECharts.graphic.LinearGradient(0, 0, 0, 1, [
+                                        {offset: 0, color: "#2378f7"},
+                                        {offset: 0.7, color: "#2378f7"},
+                                        {offset: 1, color: "#83bff6"}
+                                    ])
+                                }
+                            },
+                            data: data
+                        }
+                    ]
+                };
+            });
+        }
+    };
 </script>
 
 <style scoped>
-.echarts {
-  width: 100%;
-  height: 500px;
-}
+  .echarts {
+    width: 100%;
+    height: 500px;
+  }
 </style>

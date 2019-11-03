@@ -1,97 +1,163 @@
 <template>
-  <form novalidate class="md-layout">
-    <md-card class="md-layout-item md-size-50 md-small-size-100 form-card">
-      <md-card-content calss="form-content">
-        <md-field>
-          <label for="first-name">First Name</label>
-          <md-input
-            name="name"
-            id="first-name"
-            autocomplete="given-name"
-            v-model="form.firstName"
-            :class="status('nnnn')"
-          />
-        </md-field>
+  <div>
+    <form novalidate class="md-layout create-user">
+      <md-card class="md-layout-item md-size-50 md-small-size-100 form-card">
+
+        <md-card-content calss="form-content">
+          <md-field>
+            <label for="first-name">First Name</label>
+            <md-input name="name"
+                      id="first-name"
+                      autocomplete="given-name"
+                      v-model="form.firstName"
+                      :class="status('name')"/>
+
+          </md-field>
+
+          <md-field>
+            <label for="address">Station mac address</label>
+            <md-input name="macAddress" id="address" autocomplete="given-name" v-model="form.macAddress"
+                      :class="status('address')"/>
+
+
+          </md-field>
+
+          <md-field>
+            <label for="description">Description</label>
+            <md-input name="macAddress" id="description" autocomplete="given-name" v-model="form.description"
+                      :class="status('description')"/>
+
+
+          </md-field>
+        </md-card-content>
+
+
+        <pre> {{ $v.$model }}</pre>
+
+        <md-card-actions>
+          <md-button type="submit" class="md-primary" v-on:click="createUser($event)">Create user</md-button>
+        </md-card-actions>
+      </md-card>
+    </form>
+    <form novalidate class="md-layout">
+      <md-card>
 
         <md-field>
-          <label for="address">Station mac address</label>
-          <md-input
-            name="macAddress"
-            id="address"
-            autocomplete="given-name"
-            v-model="form.macAddress"
-            :class="status('nnnn')"
-          />
+          <label for="image">Image</label>
+          <md-input name="file" id="image" type="file" autocomplete="given-name"
+                    v-on:change="setImage($event)" v-model="file"
+                    :class="status('file')"/>
         </md-field>
 
-        <div class="md-layout md-gutter">
-          <div class="md-layout-item md-small-size-100">
-            <!--                <pre>{{ $v }}</pre>-->
-          </div>
-        </div>
-      </md-card-content>
+        <md-card-actions>
+          <md-button type="submit" class="md-primary" v-on:click="addImage()">Set Image</md-button>
+        </md-card-actions>
+      </md-card>
 
-      <md-card-actions>
-        <md-button type="submit" class="md-primary" v-on:click="createUser($event)">Create user</md-button>
-      </md-card-actions>
-    </md-card>
-  </form>
+    </form>
+  </div>
 </template>
 
 <script>
-import { required } from "vuelidate/lib/validators";
-import { validationMixin } from "vuelidate";
-import axios from "axios";
-
-export default {
-  mixins: [validationMixin],
-  data: () => ({
-    staticUser: [],
-    text: "",
-    form: {
-      firstName: null,
-      macAddress: null
-    }
-  }),
-  validations: {
-    form: {
-      firstName: {
+    import {
         required
-      },
-      macAddress: {
-        required
-      }
-    }
-  },
-  methods: {
-    status(validation) {
-      return {
-        error: validation.$error,
-        dirty: validation.$dirty
-      };
-    },
-    createUser(event) {
-      event.preventDefault();
+    } from 'vuelidate/lib/validators'
+    import io from 'socket.io-client';
+    import axios from "axios";
+    import { validationMixin } from "vuelidate/src";
 
-      const user = {
-        name: this.form.firstName,
-        station_mac: this.form.macAddress
-      };
+    export default {
+        mixins: [validationMixin],
+        data: () => ({
+            users: [
+                {
+                    id: null,
+                    name: null,
+                    macAddress: null,
+                    userId: null
+                }
+            ],
+            staticUser: [],
+            socket: io('http://192.168.1.204:5000'),
+            text: '',
+            form: {
+                firstName: null,
+                macAddress: null,
+                description: null,
+            },
+            currentUser: null,
+            file: null,
 
-      axios
-        .post("https://i-detected-backend.herokuapp.com/users", [user])
-        .then(response => {
-          console.log("post", response);
-        });
-    }
-  },
-  computed: {
-    myStyles() {
-      return {
-        height: `${this.height}px`,
-        position: "relative"
-      };
-    }
-  }
-};
+        }),
+        validations: {
+            form: {
+                firstName: {
+                    required,
+                },
+                macAddress: {
+                    required,
+                }
+            }
+        },
+        methods: {
+            setImage(event) {
+                const image = new FormData();
+                image.append(event.target.files[0].name, event.target.files[0]);
+                this.file = image;
+            },
+            addImage() {
+                axios
+                    .patch(`http://192.168.1.204:5000/users/:${this.currentUser}/upload`, this.file)
+                    .then(response => {
+                        console.log('patch', response);
+                    })
+            },
+            status(validation) {
+                return {
+                    error: validation.$error,
+                    dirty: validation.$dirty
+                }
+            },
+            createUser(event) {
+                event.preventDefault();
+
+                const user = {
+                    name: this.form.firstName,
+                    station_mac: this.form.macAddress,
+                    text: this.form.description,
+                    file: this.form.file
+                };
+
+                axios
+                    .post('http://192.168.1.204:5000/users', [user])
+                    .then(response => {
+                        this.currentUser = response.data._id;
+                        console.log('post', response);
+                    })
+            },
+            deleteUser(userId) {
+                console.log(userId);
+                axios
+                    .delete(`https://i-detected-backend.herokuapp.com/users/${userId}`);
+            },
+            getUser() {
+                axios.get('https://i-detected-backend.herokuapp.com/users/')
+                    .then((response) => {
+                        if (response) {
+                            this.staticUser = response.data.map((user, index) => {
+                                return {
+                                    id: ++index,
+                                    name: user.name,
+                                    macAddress: user.station_mac,
+                                    userId: user._id
+                                }
+                            });
+                        }
+                    })
+            },
+        }
+    };
 </script>
+<style>
+
+</style>

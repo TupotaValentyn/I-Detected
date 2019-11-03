@@ -26,46 +26,45 @@
 </template>
 
 <script>
-import axios from "axios";
+    import axios from "axios";
 
-const App = {
-  data: () => ({
-    staticUser: [],
-    text: "",
-    form: {
-      firstName: null,
-      macAddress: null
-    }
-  }),
-  props: {},
-  methods: {
-    deleteUser(userId) {
-      console.log(userId);
-      axios.delete(`https://i-detected-backend.herokuapp.com/users/${userId}`);
-    },
-    getUser() {
-      axios
-        .get("https://i-detected-backend.herokuapp.com/users/")
-        .then(response => {
-          if (response) {
-            this.staticUser = response.data.map((user, index) => {
-              return {
-                id: ++index,
-                name: user.name,
-                macAddress: user.station_mac,
-                userId: user._id
-              };
-            });
-          }
-        });
-    }
-  },
-  mounted() {
-    this.getUser();
-  }
-};
+    export default {
+        data: () => ({
+            staticUser: [],
+            text: "",
+            form: {
+                firstName: null,
+                macAddress: null
+            }
+        }),
+        props: {},
+        methods: {
+            deleteUser(userId) {
+                console.log(userId);
+                axios.delete(`https://i-detected-backend.herokuapp.com/users/${userId}`);
+            },
+            getUser() {
+                axios
+                    .get("https://i-detected-backend.herokuapp.com/users/")
+                    .then(response => {
+                        if (response) {
+                            this.staticUser = response.data.map((user, index) => {
+                                return {
+                                    id: ++index,
+                                    name: user.name,
+                                    macAddress: user.station_mac,
+                                    userId: user._id
+                                };
+                            });
+                        }
+                    });
+            }
+        },
+        mounted() {
+            this.getUser();
+        }
+    };
 
-export default App;
 </script>
 
 <style scoped>

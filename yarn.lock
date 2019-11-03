@@ -8190,6 +8190,14 @@ vue-echarts@^4.0.4:
     lodash "^4.17.15"
     resize-detector "^0.1.10"
 
+vue-echarts@^4.0.4:
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/vue-echarts/-/vue-echarts-4.0.4.tgz#25c2cc2379b6d8a20ef63ac8f5203df5d07098aa"
+  integrity sha512-AemPvRAJlu5JCDKcfVfyNSQ4XipiT3gjy5v+VCLuHzNGUhxnQqBdh7ohaUKzuWBOoKBym3tZL7U9FyWIVPkPHw==
+  dependencies:
+    lodash "^4.17.15"
+    resize-detector "^0.1.10"
+
 vue-eslint-parser@^5.0.0:
   version "5.0.0"
   resolved "https://registry.npm.taobao.org/vue-eslint-parser/download/vue-eslint-parser-5.0.0.tgz#00f4e4da94ec974b821a26ff0ed0f7a78402b8a1"

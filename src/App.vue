@@ -6,11 +6,11 @@
       admin-panel
     </h1>
     <section class="table-section">
-      <UsersTable></UsersTable>
+            <UsersTable></UsersTable>
     </section>
 
     <section>
-      <UsersForm></UsersForm>
+            <UsersForm></UsersForm>
     </section>
 
     <section class="bar-chart-container">
@@ -20,85 +20,65 @@
 </template>
 
 <script>
-import UsersTable from "./components/UsersTable";
-import UsersForm from "./components/UsersForm";
-import BarChart from "./components/BarChart";
+    import UsersTable from "./components/UsersTable";
+    import UsersForm from "./components/UsersForm";
+    import BarChart from "./components/BarChart";
 
-const App = {
-  components: { UsersTable, UsersForm, BarChart },
-  data: () => ({}),
-  validations: {},
-  methods: {}
+    const App = {
+        components: {BarChart, UsersForm, UsersTable},
+    };
 
-  // beforeMount() {
-  //   socket.on("data-list", response => {
-  //     if (response) {
-  //       this.users = response.map((user, index) => {
-  //         return {
-  //           id: ++index,
-  //           name: user.name,
-  //           macAddress: user.station_mac,
-  //           userId: user._id
-  //         };
-  //       });
-  //     } else {
-  //       return this.users;
-  //     }
-  //   });
-  // },
-};
-
-export default App;
+    export default App;
 </script>
 
 
 <style>
-html,
-body,
-.app {
-  height: 100%;
-}
+  html,
+  body,
+  .app {
+    height: 100%;
+  }
 
-html {
-  font-family: "Roboto", sans-serif;
-}
+  html {
+    font-family: "Roboto", sans-serif;
+  }
 
-#app {
-  padding: 1rem;
-}
+  #app {
+    padding: 1rem;
+  }
 
-tbody .md-table-row td {
-  border-top: none;
-}
+  tbody .md-table-row td {
+    border-top: none;
+  }
 
-.app_welcome {
-  text-align: center;
-}
+  .app_welcome {
+    text-align: center;
+  }
 
-.delete-user {
-  display: flex;
-  align-items: center;
-  background: transparent;
-}
+  .delete-user {
+    display: flex;
+    align-items: center;
+    background: transparent;
+  }
 
-.delete-user_row {
-  border-top-color: transparent !important;
-}
+  .delete-user_row {
+    border-top-color: transparent !important;
+  }
 
-.form-content,
-.form-card {
-  width: 100%;
-}
+  .form-content,
+  .form-card {
+    width: 100%;
+  }
 
-.table-section {
-  margin: 1rem 0;
-}
+  .table-section {
+    margin: 1rem 0;
+  }
 
-.md-layout {
-  justify-content: center;
-}
+  .md-layout {
+    justify-content: center;
+  }
 
-.bar-chart-container {
-  margin-top: 20px;
-}
+  .bar-chart-container {
+    margin-top: 20px;
+  }
 </style>
