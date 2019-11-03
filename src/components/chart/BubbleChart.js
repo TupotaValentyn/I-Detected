@@ -7,9 +7,7 @@ export default {
         setTimeout(() => {
             console.log(this.data);
             this.renderChart({
-                datasets: [
-                    ...this.data
-                ]
+                datasets: this.data
             }, {responsive: true, maintainAspectRatio: false})
         }, 0);
     }

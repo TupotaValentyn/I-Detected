@@ -160,7 +160,6 @@
             },
             createUser(event) {
                 event.preventDefault();
-                console.log(this.form);
 
                 const user = {
                     name: this.form.firstName,
@@ -178,11 +177,19 @@
                 axios
                     .delete(`https://i-detected-backend.herokuapp.com/users/${userId}`);
             },
-            getUser(){
+            getUser() {
                 axios.get('https://i-detected-backend.herokuapp.com/users/')
                     .then((response) => {
-                        console.log(response);
-                        this.staticUser = response;
+                        if (response) {
+                            this.staticUser = response.data.map((user, index) => {
+                                return {
+                                    id: ++index,
+                                    name: user.name,
+                                    macAddress: user.station_mac,
+                                    userId: user._id
+                                }
+                            });
+                        }
                     })
             },
 
@@ -209,6 +216,7 @@
 
         },
         mounted() {
+            this.getUser();
             // chart
             setInterval(() => {
                 this.fillData()
@@ -217,7 +225,6 @@
 
         beforeMount() {
             this.socket.on('data-list', (response) => {
-                console.log(response);
                 if (response) {
                     this.users = response.map((user, index) => {
                         return {
@@ -228,23 +235,27 @@
                         }
                     });
 
-                    // this.chartData = this.users.map(user => {
-                    //      return {
-                    //          label: user.name || '111',
-                    //          backgroundColor: '#0f0',
-                    //          data: [
-                    //              {
-                    //                  x: 20,
-                    //                  y: 20,
-                    //                  r: 15
-                    //              }
-                    //          ]
-                    //      }
-                    //  })
+                    this.chartData = response.map(user => {
+                        return {
+                            label: user.name || '11111',
+                            backgroundColor: '#0f0',
+                            data: [
+                                {
+                                    x: 20,
+                                    y: 20,
+                                    r: 15
+                                }
+                            ]
+                        }
+                    });
+
                 } else {
                     return this.users;
                 }
+
             });
+
+
         },
 
         computed: {
@@ -299,6 +310,10 @@
 
   .table-section {
     margin: 1rem 0;
+  }
+
+  .md-layout {
+    justify-content: center;
   }
 
 </style>
