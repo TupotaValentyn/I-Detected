@@ -4,7 +4,7 @@
       <md-dialog :md-active.sync="showDialog">
         <md-dialog-title>Change</md-dialog-title>
         <form novalidate class="md-layout create-user">
-          <md-card class="md-layout-item md-size-50 md-small-size-100 form-card">
+          <md-card class="md-layout-item md-size-50 md-small-size-100 form-card my-dialog">
             <md-card-content calss="form-content">
               <md-field>
                 <label for="first-name">First Name</label>
@@ -34,7 +34,6 @@
               </md-field>
             </md-card-content>
             <md-card-actions>
-              <md-button class="md-primary md-raised" @click="showDialog = true">close</md-button>
               <md-button type="submit" class="md-primary" v-on:click="changeUser($event)">Change user</md-button>
             </md-card-actions>
           </md-card>
@@ -134,7 +133,7 @@
                 console.log(userId);
                 axios.delete(`${host}/users/${userId}`);
             },
-            getUser() {
+            getUsers() {
                 axios.get(`${host}/users/`).then(response => {
                     if (response) {
                         this.staticUser = response.data.map((user, index) => {
@@ -147,6 +146,16 @@
                             };
                         });
                     }
+                });
+
+
+
+            },
+            getUser(id) {
+                axios.get(`${host}/users/${this.selectedUser}/upload`).then(response => {
+                    console.log(response);
+                    console.log(id);
+                    // this.form.firstName =
                 });
             },
             editUser(userId) {
@@ -188,7 +197,7 @@
             }
         },
         mounted() {
-            this.getUser();
+            this.getUsers();
         }
     };
 </script>
@@ -200,5 +209,9 @@
 
   .picture-cell {
     width: 250px;
+  }
+
+  .my-dialog, .form-content {
+    min-width: 100%;
   }
 </style>
