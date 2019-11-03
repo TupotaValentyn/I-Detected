@@ -1,5 +1,6 @@
 import Vue from 'vue';
-import App from './App.vue';
+import VueRouter from 'vue-router';
+import App from './App';
 import VueMaterial from 'vue-material';
 import 'vue-material/dist/vue-material.min.css';
 import 'vue-material/dist/theme/default.css';
@@ -13,8 +14,30 @@ Vue.config.productionTip = false;
 
 Vue.use(Vuelidate);
 Vue.use(VueMaterial);
+Vue.use(VueRouter);
 Vue.component('v-chart', ECharts);
 
+import UsersTable from "./components/UsersTable";
+import BarChart from "./components/BarChart";
+
+const routes = [
+  {
+    path: '/',
+    component: BarChart
+  },
+  {
+    path: '/users',
+    component: UsersTable
+  }
+]
+
+const router = new VueRouter({
+  mode: 'history',
+  base: __dirname,
+  routes
+})
+
 new Vue({
+  router,
   render: (h) => h(App),
 }).$mount('#app');

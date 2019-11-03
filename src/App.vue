@@ -1,36 +1,17 @@
 <template>
   <div id="app">
     <h1 class="app_welcome">
-      Welcome to
-      <mark>I Detected</mark>
-      admin-panel
+      Welcome to <mark>I Detected</mark> admin-panel
     </h1>
-    <section class="table-section">
-            <UsersTable></UsersTable>
-    </section>
-
-    <section>
-            <UsersForm></UsersForm>
-    </section>
-
-    <section class="bar-chart-container">
-      <BarChart></BarChart>
-    </section>
+    <md-button>
+      <router-link to="/">Home</router-link>
+    </md-button>
+    <md-button>
+      <router-link to="/users" >Users</router-link>
+    </md-button>
+    <router-view></router-view>
   </div>
 </template>
-
-<script>
-    import UsersTable from "./components/UsersTable";
-    import UsersForm from "./components/UsersForm";
-    import BarChart from "./components/BarChart";
-
-    const App = {
-        components: {BarChart, UsersForm, UsersTable},
-    };
-
-    export default App;
-</script>
-
 
 <style>
   html,
