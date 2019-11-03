@@ -109,7 +109,6 @@ export default {
       // console.log(responseData);
 
       // this.showChart = responseData.length > 0;
-      console.log(responseData);
 
       let yMax = 100;
       let dataAxis = responseData.map(item => item.name);
