@@ -3,8 +3,9 @@ import { Bubble } from './BaseChart';
 export default {
     extends: Bubble,
     props: ['data'],
-    mounted() {
+    beforeMount() {
         setTimeout(() => {
+            console.log(this.data);
             this.renderChart({
                 datasets: [
                     ...this.data
