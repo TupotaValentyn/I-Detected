@@ -121,9 +121,9 @@
 
                         this.createdSuccesseded = true;
                         setTimeout(() => {
-                          this.clearForm();
                           this.createdSuccesseded = false;
                         }, 3000)
+                        this.clearForm();
                     })
             },
             deleteUser(userId) {
