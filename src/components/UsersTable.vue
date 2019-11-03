@@ -20,6 +20,9 @@
             </md-table-row>
           </md-table>
         </md-table-cell>
+        <md-table-cell md-label="Name" md-sort-by="name">
+          <img :src="item.pic" alt="">
+        </md-table-cell>
       </md-table-row>
     </md-table>
   </div>
@@ -41,11 +44,11 @@
         methods: {
             deleteUser(userId) {
                 console.log(userId);
-                axios.delete(`https://i-detected-backend.herokuapp.com/users/${userId}`);
+                axios.delete(`http://192.168.1.152:5000/users/${userId}`);
             },
             getUser() {
                 axios
-                    .get("https://i-detected-backend.herokuapp.com/users/")
+                    .get("http://192.168.1.152:5000/users/")
                     .then(response => {
                         if (response) {
                             this.staticUser = response.data.map((user, index) => {
@@ -53,7 +56,8 @@
                                     id: ++index,
                                     name: user.name,
                                     macAddress: user.station_mac,
-                                    userId: user._id
+                                    userId: user._id,
+                                    pic: `http://192.168.1.152:5000/uploads/${user.pic}`
                                 };
                             });
                         }
@@ -68,4 +72,7 @@
 </script>
 
 <style scoped>
+  tbody .md-table-row td {
+    border-top: none;
+  }
 </style>

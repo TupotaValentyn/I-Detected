@@ -11,23 +11,18 @@
                       autocomplete="given-name"
                       v-model="form.firstName"
                       :class="status('name')"/>
-
           </md-field>
 
           <md-field>
             <label for="address">Station mac address</label>
             <md-input name="macAddress" id="address" autocomplete="given-name" v-model="form.macAddress"
                       :class="status('address')"/>
-
-
           </md-field>
 
           <md-field>
             <label for="description">Description</label>
             <md-input name="macAddress" id="description" autocomplete="given-name" v-model="form.description"
                       :class="status('description')"/>
-
-
           </md-field>
         </md-card-content>
 
@@ -50,7 +45,7 @@
         </md-field>
 
         <md-card-actions>
-          <md-button type="submit" class="md-primary" v-on:click="addImage()">Set Image</md-button>
+          <md-button type="submit" class="md-primary" v-on:click="addImage($event)">Set Image</md-button>
         </md-card-actions>
       </md-card>
 
@@ -102,12 +97,13 @@
         methods: {
             setImage(event) {
                 const image = new FormData();
-                image.append(event.target.files[0].name, event.target.files[0]);
+                image.append('pic', event.target.files[0]);
                 this.file = image;
             },
-            addImage() {
+            addImage(event) {
+                event.preventDefault();
                 axios
-                    .patch(`http://192.168.1.204:5000/users/:${this.currentUser}/upload`, this.file)
+                    .patch(`http://192.168.1.152:5000/users/${this.currentUser}/upload`, this.file)
                     .then(response => {
                         console.log('patch', response);
                     })
@@ -125,11 +121,10 @@
                     name: this.form.firstName,
                     station_mac: this.form.macAddress,
                     text: this.form.description,
-                    file: this.form.file
                 };
 
                 axios
-                    .post('http://192.168.1.204:5000/users', [user])
+                    .post('http://192.168.1.152:5000/users', [user])
                     .then(response => {
                         this.currentUser = response.data._id;
                         console.log('post', response);
@@ -141,7 +136,7 @@
                     .delete(`https://i-detected-backend.herokuapp.com/users/${userId}`);
             },
             getUser() {
-                axios.get('https://i-detected-backend.herokuapp.com/users/')
+                axios.get('http://192.168.1.152:5000/users/')
                     .then((response) => {
                         if (response) {
                             this.staticUser = response.data.map((user, index) => {
@@ -159,5 +154,16 @@
     };
 </script>
 <style>
+  .create-user {
+    margin: 0 0 1rem 0;
+  }
+
+  .md-layout {
+    width: 100%;
+  }
+
+  .md-card {
+    width: 100%;
+  }
 
 </style>

@@ -47,10 +47,6 @@
     padding: 1rem;
   }
 
-  tbody .md-table-row td {
-    border-top: none;
-  }
-
   .app_welcome {
     text-align: center;
   }
@@ -59,10 +55,6 @@
     display: flex;
     align-items: center;
     background: transparent;
-  }
-
-  .delete-user_row {
-    border-top-color: transparent !important;
   }
 
   .form-content,
