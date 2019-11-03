@@ -18,6 +18,7 @@ Vue.use(VueRouter);
 Vue.component('v-chart', ECharts);
 
 import UsersTable from "./components/UsersTable";
+import UsersForm from "./components/UsersForm";
 import BarChart from "./components/BarChart";
 
 const routes = [
@@ -28,6 +29,10 @@ const routes = [
   {
     path: '/users',
     component: UsersTable
+  },
+  {
+    path: '/users/new',
+    component: UsersForm
   }
 ]
 

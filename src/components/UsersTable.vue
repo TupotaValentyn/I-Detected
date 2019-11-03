@@ -4,7 +4,7 @@
       <md-dialog :md-active.sync="showDialog">
         <md-dialog-title>Change</md-dialog-title>
         <form novalidate class="md-layout create-user">
-          <md-card class="md-layout-item md-size-50 md-small-size-100 form-card my-dialog">
+          <md-card class="md-layout-item md-large-size-100 md-small-size-100 form-card">
             <md-card-content calss="form-content">
               <md-field>
                 <label for="first-name">First Name</label>
@@ -34,6 +34,7 @@
               </md-field>
             </md-card-content>
             <md-card-actions>
+              <md-button class="md-primary md-raised" @click="showDialog = false">close</md-button>
               <md-button type="submit" class="md-primary" v-on:click="changeUser($event)">Change user</md-button>
             </md-card-actions>
           </md-card>
@@ -68,13 +69,13 @@
                     <span>{{ item.macAddress }}</span>
                     <md-button
                       class="md-primary"
-                      v-on:click="deleteUser(item.userId)"
+                      v-on:click="deleteUser(item.id, item.userId)"
                     >Delete user
                     </md-button>
 
                     <md-button
                       class="md-primary"
-                      v-on:click="editUser(item.userId)"
+                      v-on:click="editUser(item)"
                     >edit user
                     </md-button
                     >
@@ -129,9 +130,10 @@
             }
         },
         methods: {
-            deleteUser(userId) {
-                console.log(userId);
-                axios.delete(`${host}/users/${userId}`);
+            deleteUser(index, userId) {
+              this.staticUser.splice(index - 1);
+              console.log(userId);
+              axios.delete(`${host}/users/${userId}`);
             },
             getUsers() {
                 axios.get(`${host}/users/`).then(response => {
@@ -142,7 +144,8 @@
                                 name: user.name,
                                 macAddress: user.station_mac,
                                 userId: user._id,
-                                pic: `${host}/uploads/${user.pic}`
+                                pic: `${host}/uploads/${user.pic}`,
+                                description: user.text,
                             };
                         });
                     }
@@ -158,9 +161,12 @@
                     // this.form.firstName =
                 });
             },
-            editUser(userId) {
-                this.selectedUser = userId;
-                this.showDialog = true;
+            editUser(user) {
+              this.form.firstName = user.name;
+              this.form.macAddress = user.macAddress;
+              this.form.description = user.description;
+              this.selectedUser = user.id;
+              this.showDialog = true;
             },
 
             setImage(event) {
