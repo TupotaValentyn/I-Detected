@@ -57,9 +57,9 @@
     import {
         required
     } from 'vuelidate/lib/validators'
-    import io from 'socket.io-client';
     import axios from "axios";
     import { validationMixin } from "vuelidate/src";
+    import { host } from "../config";
 
     export default {
         mixins: [validationMixin],
@@ -73,7 +73,6 @@
                 }
             ],
             staticUser: [],
-            socket: io('http://192.168.1.204:5000'),
             text: '',
             form: {
                 firstName: null,
@@ -103,7 +102,7 @@
             addImage(event) {
                 event.preventDefault();
                 axios
-                    .patch(`http://192.168.1.152:5000/users/${this.currentUser}/upload`, this.file)
+                    .patch(`${host}/users/${this.currentUser}/upload`, this.file)
                     .then(response => {
                         console.log('patch', response);
                     })
@@ -124,7 +123,7 @@
                 };
 
                 axios
-                    .post('http://192.168.1.152:5000/users', [user])
+                    .post(`${host}/users`, [user])
                     .then(response => {
                         this.currentUser = response.data._id;
                         console.log('post', response);
@@ -133,10 +132,10 @@
             deleteUser(userId) {
                 console.log(userId);
                 axios
-                    .delete(`https://i-detected-backend.herokuapp.com/users/${userId}`);
+                    .delete(`${host}/users/${userId}`);
             },
             getUser() {
-                axios.get('http://192.168.1.152:5000/users/')
+                axios.get(`${host}/users/`)
                     .then((response) => {
                         if (response) {
                             this.staticUser = response.data.map((user, index) => {

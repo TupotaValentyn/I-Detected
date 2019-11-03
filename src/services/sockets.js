@@ -1,2 +1,4 @@
-import io from 'socket.io-client';
-export const socket = io('http://192.168.1.204:5000');
+import io from "socket.io-client";
+import { host } from "../config";
+
+export const socket = io(host);

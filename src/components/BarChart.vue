@@ -1,6 +1,7 @@
 <template>
   <md-card class="md-layout-item form-card">
     <md-card-content calss="form-content">
+<!--      <h2 v-if="!showChart" class="chart-text">No devices available at the moment</h2>-->
       <v-chart :options="opts"></v-chart>
     </md-card-content>
   </md-card>
@@ -94,7 +95,8 @@
                 ]
             };
             return {
-                opts: option
+                opts: option,
+                showChart: false
             };
         },
         mounted() {
@@ -105,6 +107,8 @@
                     signal: 100 + item.power
                 }));
                 // console.log(responseData);
+
+                // this.showChart = responseData.length > 0;
 
                 let yMax = 100;
                 let dataAxis = responseData.map(item => item.name);
@@ -174,5 +178,9 @@
   .echarts {
     width: 100%;
     height: 500px;
+  }
+
+  .chart-text {
+    text-align: center;
   }
 </style>

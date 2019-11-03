@@ -30,6 +30,7 @@
 
 <script>
     import axios from "axios";
+    import { host } from "../config";
 
     export default {
         data: () => ({
@@ -44,11 +45,11 @@
         methods: {
             deleteUser(userId) {
                 console.log(userId);
-                axios.delete(`http://192.168.1.152:5000/users/${userId}`);
+                axios.delete(`${host}/users/${userId}`);
             },
             getUser() {
                 axios
-                    .get("http://192.168.1.152:5000/users/")
+                    .get(`${host}/users/`)
                     .then(response => {
                         if (response) {
                             this.staticUser = response.data.map((user, index) => {
@@ -57,7 +58,7 @@
                                     name: user.name,
                                     macAddress: user.station_mac,
                                     userId: user._id,
-                                    pic: `http://192.168.1.152:5000/uploads/${user.pic}`
+                                    pic: `${host}/uploads/${user.pic}`
                                 };
                             });
                         }
