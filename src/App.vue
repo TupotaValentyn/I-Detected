@@ -3,12 +3,21 @@
     <h1 class="app_welcome">
       Welcome to <mark>I Detected</mark> admin-panel
     </h1>
-    <md-button>
-      <router-link to="/">Home</router-link>
-    </md-button>
-    <md-button>
-      <router-link to="/users" >Users</router-link>
-    </md-button>
+    <router-link to="/" class="md-button md-theme-default">
+      <div class="md-ripple">
+        <div class="md-button-content">
+          Home
+        </div>
+      </div>
+    </router-link>
+
+    <router-link to="/users" class="md-button md-theme-default">
+      <div class="md-ripple">
+        <div class="md-button-content">
+          Users
+        </div>
+      </div>
+    </router-link>
     <router-view></router-view>
   </div>
 </template>
