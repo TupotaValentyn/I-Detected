@@ -4,7 +4,7 @@
       <md-dialog :md-active.sync="showDialog">
         <md-dialog-title>Change</md-dialog-title>
         <form novalidate class="md-layout create-user">
-          <md-card class="md-layout-item md-size-50 md-small-size-100 form-card">
+          <md-card class="md-layout-item md-large-size-100 md-small-size-100 form-card">
             <md-card-content calss="form-content">
               <md-field>
                 <label for="first-name">First Name</label>
@@ -34,7 +34,7 @@
               </md-field>
             </md-card-content>
             <md-card-actions>
-              <md-button class="md-primary md-raised" @click="showDialog = true">close</md-button>
+              <md-button class="md-primary md-raised" @click="showDialog = false">close</md-button>
               <md-button type="submit" class="md-primary" v-on:click="changeUser($event)">Change user</md-button>
             </md-card-actions>
           </md-card>
@@ -69,7 +69,7 @@
                     <span>{{ item.macAddress }}</span>
                     <md-button
                       class="md-primary"
-                      v-on:click="deleteUser(item.userId)"
+                      v-on:click="deleteUser(item.id, item.userId)"
                     >Delete user
                     </md-button>
 
@@ -130,9 +130,10 @@
             }
         },
         methods: {
-            deleteUser(userId) {
-                console.log(userId);
-                axios.delete(`${host}/users/${userId}`);
+            deleteUser(index, userId) {
+              this.staticUser.splice(index - 1);
+              console.log(userId);
+              axios.delete(`${host}/users/${userId}`);
             },
             getUser() {
                 axios.get(`${host}/users/`).then(response => {

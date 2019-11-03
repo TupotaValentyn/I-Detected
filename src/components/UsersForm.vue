@@ -1,8 +1,12 @@
 <template>
   <div>
+  <md-dialog-alert
+      :md-active.sync="createdSuccesseded"
+      md-content="User has been created!"
+      md-confirm-text="Cool!" />
+
     <form novalidate class="md-layout create-user">
       <md-card class="md-layout-item md-size-50 md-small-size-100 form-card">
-
         <md-card-content calss="form-content">
           <md-field>
             <label for="first-name">First Name</label>
@@ -34,22 +38,6 @@
         </md-card-actions>
       </md-card>
     </form>
-    <form novalidate class="md-layout">
-      <md-card>
-
-        <md-field>
-          <label for="image">Image</label>
-          <md-input name="file" id="image" type="file" autocomplete="given-name"
-                    v-on:change="setImage($event)" v-model="file"
-                    :class="status('file')"/>
-        </md-field>
-
-        <md-card-actions>
-          <md-button type="submit" class="md-primary" v-on:click="addImage($event)">Set Image</md-button>
-        </md-card-actions>
-      </md-card>
-
-    </form>
   </div>
 </template>
 
@@ -64,6 +52,7 @@
     export default {
         mixins: [validationMixin],
         data: () => ({
+            createdSuccesseded: false,
             users: [
                 {
                     id: null,
@@ -94,6 +83,11 @@
             }
         },
         methods: {
+            clearForm() {
+              this.form.firstName = null;
+              this.form.macAddress = null;
+              this.form.description = null;
+            },
             setImage(event) {
                 const image = new FormData();
                 image.append('pic', event.target.files[0]);
@@ -127,6 +121,12 @@
                     .then(response => {
                         this.currentUser = response.data._id;
                         console.log('post', response);
+
+                        this.createdSuccesseded = true;
+                        setTimeout(() => {
+                          this.clearForm();
+                          this.createdSuccesseded = false;
+                        }, 3000)
                     })
             },
             deleteUser(userId) {
@@ -165,4 +165,7 @@
     width: 100%;
   }
 
+  input[type="file"] {
+    opacity: 0;
+  }
 </style>

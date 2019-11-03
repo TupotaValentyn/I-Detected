@@ -18,6 +18,14 @@
         </div>
       </div>
     </router-link>
+
+    <router-link to="/users/new" class="md-button md-theme-default">
+      <div class="md-ripple">
+        <div class="md-button-content">
+          New User
+        </div>
+      </div>
+    </router-link>
     <router-view></router-view>
   </div>
 </template>
