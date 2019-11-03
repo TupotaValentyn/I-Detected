@@ -34,7 +34,7 @@
               </md-field>
             </md-card-content>
             <md-card-actions>
-              <md-button class="md-primary md-raised" @click="showDialog = false">close</md-button>
+<!--              <md-button class="md-primary md-raised" @click="showDialog = false">close</md-button>-->
               <md-button type="submit" class="md-primary" v-on:click="changeUser($event)">Change user</md-button>
             </md-card-actions>
           </md-card>
@@ -165,7 +165,7 @@
               this.form.firstName = user.name;
               this.form.macAddress = user.macAddress;
               this.form.description = user.description;
-              this.selectedUser = user.id;
+              this.selectedUser = user.userId;
               this.showDialog = true;
             },
 
